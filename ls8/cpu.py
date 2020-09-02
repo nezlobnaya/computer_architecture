@@ -2,6 +2,43 @@
 
 import sys
 
+# List of instructions
+
+ADD = 0b10100000 # add
+AND = 0b10101000
+CALL = 0b01010000 # call
+CMP = 0b10100111 # compare
+DEC = 0b01100110
+DIV = 0b10100011
+HLT = 0b00000001 #stop
+INC = 0b01100101
+INT = 0b01010010
+IRET = 0b00010011
+JEQ = 0b01010101 # equal
+JGE = 0b01011010
+JGT = 0b01010111
+JLE = 0b01011001
+JLT = 0b01011000
+JMP = 0b01010100 # jump
+JNE = 0b01010110 # not equal
+LD = 0b10000011
+LDI = 0b10000010 # sets a specified register to a value
+MOD = 0b10100100
+PRN = 0b01000111 # print
+MUL = 0b10100010 # multiply
+NOP = 0b00000000
+NOT = 0b01101001
+OR = 0b10101010
+POP = 0b01000110 # pop off the stack
+PRA = 0b01001000
+PUSH = 0b01000101 # push onto the stack
+RET = 0b00010001 # return
+SHL = 0b10101100
+SHR = 0b10101101
+ST = 0b10000100
+SUB = 0b10100001 # subtract
+XOR = 0b10101011
+
 class CPU:
     """Main CPU class."""
 
