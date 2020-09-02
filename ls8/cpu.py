@@ -2,7 +2,7 @@
 
 import sys
 
-# List of instructions
+# List of instructions codes
 
 ADD = 0b10100000 # add
 AND = 0b10101000
@@ -10,7 +10,7 @@ CALL = 0b01010000 # call
 CMP = 0b10100111 # compare
 DEC = 0b01100110
 DIV = 0b10100011
-HLT = 0b00000001 #stop
+HLT = 0b00000001 # halt the CPU and exit the emulator
 INC = 0b01100101
 INT = 0b01010010
 IRET = 0b00010011
@@ -22,9 +22,9 @@ JLT = 0b01011000
 JMP = 0b01010100 # jump
 JNE = 0b01010110 # not equal
 LD = 0b10000011
-LDI = 0b10000010 # sets a specified register to a value
+LDI = 0b10000010 # load "immediate", store a value in a register, or "set this register to this value".
 MOD = 0b10100100
-PRN = 0b01000111 # print
+PRN = 0b01000111 # a pseudo-instruction that prints the numeric value stored in a register.
 MUL = 0b10100010 # multiply
 NOP = 0b00000000
 NOT = 0b01101001
@@ -44,7 +44,23 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        pass
+        # hold 256 bytes of memory
+        self.ram = [0] * 256
+        # hold 8 general-purpose registers
+        self.reg = [0] * 8
+        # program counter
+        self.pc = 0
+        # stack pointer
+        self.sp = 7
+        # CPU running
+        self.running = True
+
+    def ram_read(self, address):
+        return self.ram[address]
+
+    def ram_write(self, value, address):
+        self.ram[address] = value 
+
 
     def load(self):
         """Load a program into memory."""
