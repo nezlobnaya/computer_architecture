@@ -56,7 +56,11 @@ class CPU:
         self.running = True
 
     def ram_read(self, address):
-        return self.ram[address]
+        if address < len(self.ram):
+            return self.ram[address]
+        else:
+            print("address is too high:" + str(address))
+            sys.exit(1)
 
     def ram_write(self, value, address):
         self.ram[address] = value 
@@ -115,4 +119,19 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+        while self.running:
+            instruction_register = self.ram_read(self.pc)
+            operand_a, operand_b = self.ram_read(self.pc + 1), self.ram_read(self.pc + 2)
+            self.trace()
+            if instruction_register == HLT:
+                self.running = False
+            elif instruction_register == LDI:
+                self.reg[operand_a] = operand_b
+                self.pc +=3
+            elif instruction_register == PRN:
+                print(self.reg[operand_a])
+                self.pc +=2
+            else:
+                print(f"Instruction not valid: {instruction_register}")
+                sys.exit()
+       
