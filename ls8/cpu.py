@@ -161,15 +161,17 @@ class CPU:
                 self.pc +=3
             elif instruction_register == ADD:
                 self.alu("ADD", operand_a, operand_b)
+                self.pc +=3
             elif instruction_register == SUB:
                 self.alu("SUB", operand_a, operand_b)
                 self.pc += 3
             elif instruction_register == PUSH:
                 self.reg[self.sp] -= 1
                 self.ram_write(self.reg[operand_a], self.reg[self.sp])
-                self.pc +=2
+                self.pc += 2
             elif instruction_register == POP:
-                self.reg[operand_a] == self.ram_read(self.reg[self.sp])
+                # take the value that is stored at the top of the stack
+                self.reg[operand_a] = self.ram_read(self.reg[self.sp])
                 self.reg[self.sp] += 1
                 self.pc += 2
             else:
