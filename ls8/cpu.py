@@ -115,6 +115,8 @@ class CPU:
         #elif op == "SUB": etc
         elif op == "MUL":
             self.reg[reg_a] *= self.reg[reg_b]
+        elif op =='SUB':
+            self.reg[reg_a] -= self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -157,6 +159,21 @@ class CPU:
             elif instruction_register == MUL:
                 self.alu("MUL",operand_a, operand_b)
                 self.pc +=3
+            elif instruction_register == ADD:
+                self.alu("ADD", operand_a, operand_b)
+                self.pc +=3
+            elif instruction_register == SUB:
+                self.alu("SUB", operand_a, operand_b)
+                self.pc += 3
+            elif instruction_register == PUSH:
+                self.reg[self.sp] -= 1
+                self.ram_write(self.reg[operand_a], self.reg[self.sp])
+                self.pc += 2
+            elif instruction_register == POP:
+                # take the value that is stored at the top of the stack
+                self.reg[operand_a] = self.ram_read(self.reg[self.sp])
+                self.reg[self.sp] += 1
+                self.pc += 2
             else:
                 print(f"Instruction not valid: {instruction_register}")
                 sys.exit()
