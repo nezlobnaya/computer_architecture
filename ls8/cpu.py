@@ -155,7 +155,7 @@ class CPU:
             try:
                 out = self.ir[instruction_register](op1, op2)
                 self.pc += out[0]
-                self.running = out[1]
+            
 
             except:
                 print(f"Instruction not valid: {instruction_register}")
