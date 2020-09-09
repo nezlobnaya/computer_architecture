@@ -28,7 +28,10 @@ class CPU:
             0b00000001: self.hlt,
             0b10100010: self.mul,
             0b01000101: self.push,
-            0b01000110: self.pop
+            0b01000110: self.pop,
+            0b01010000: self.call,
+            0b00010001: self.ret,
+            0b10100000: self.add
         }
 
     def hlt(self, op1, op2):
@@ -58,6 +61,21 @@ class CPU:
         self.reg[self.sp] -= 1
         self.ram_write(self.reg[op1], self.reg[self.sp])
         return(2, True)
+
+    def call(self, op1, op2):
+        self.sp -= 1
+        self.ram[self.sp] = self.pc + 2
+        self.pc = self.reg[op1]
+        return (0, True)
+
+
+    def ret(self, op1, op2):
+        self.pc = self.ram[self.sp]
+        return (0, True)
+
+    def add(self, op1, op2):
+        self.alu('ADD', op1, op2)
+        return (3, True)
 
     def ram_read(self, address):
         if address < len(self.ram):
@@ -155,7 +173,7 @@ class CPU:
             try:
                 out = self.ir[instruction_register](op1, op2)
                 self.pc += out[0]
-                self.running = out[1]
+            
 
             except:
                 print(f"Instruction not valid: {instruction_register}")
