@@ -170,6 +170,25 @@ class CPU:
             self.reg[reg_a] *= self.reg[reg_b]
         elif op =='SUB':
             self.reg[reg_a] -= self.reg[reg_b]
+        elif op == 'CMP':
+            if self.reg[reg_a] < self.reg[reg_b]:
+                #less than L flag to 1
+                self.flags['L'] = 1
+                # greater than flag to 0
+                self.flags['G'] = 0
+                # equal to flag to 0
+                self.flags['E'] = 0
+
+            elif self.reg[reg_a] > self.reg[reg_b]:
+                # greater than flag to 1
+                self.flags['G'] = 1
+                # less than flag to 0
+                self.flags['L'] = 0
+                # equal to flag to 0
+                self.flags['E'] = 0
+            else:
+                #equal to flag to 1
+                self.flags['E'] = 1
         else:
             raise Exception("Unsupported ALU operation")
 
