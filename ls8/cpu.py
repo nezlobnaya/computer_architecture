@@ -22,6 +22,12 @@ class CPU:
         # CPU running
         self.running = True
 
+        self.flags = {
+            'E': 0,
+            'G': 0,
+            'L': 0,
+        }
+
         self.ir = {
             0b10000010: self.ldi,
             0b01000111: self.prn,
@@ -31,8 +37,33 @@ class CPU:
             0b01000110: self.pop,
             0b01010000: self.call,
             0b00010001: self.ret,
-            0b10100000: self.add
+            0b10100000: self.add,
+            0b10100111: self.comp,
+            0b01010101: self.jeq,
+            0b01010110: self.jne,
+            0b01010100: self.jmp
         }
+
+    def comp(self, op1, op2):
+        self.alu('CMP', op1, op2)
+        return (3, True)
+    
+    def jne(self, op1, op2):
+        if self.flags['E'] == 0:
+            self.pc = self.reg[op1]
+            return (0, True)
+        else:
+            return(2, True)
+
+    def jeq(self, op1, op2):
+        if self.flags['E'] == 1:
+            self.pc = self.reg[op1]
+        else:
+            return (2, True)
+    
+    def jmp(self, op1, op2):
+        self.pc = self.reg[op1]
+        return (0, True)
 
     def hlt(self, op1, op2):
         self.running = False
