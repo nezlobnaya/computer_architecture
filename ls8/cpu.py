@@ -58,6 +58,7 @@ class CPU:
     def jeq(self, op1, op2):
         if self.flags['E'] == 1:
             self.pc = self.reg[op1]
+            return (0, True)
         else:
             return (2, True)
     
